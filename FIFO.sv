@@ -25,6 +25,7 @@ always @(posedge fifoif.clk or negedge fifoif.rst_n) begin
 		mem[wr_ptr] <= fifoif.data_in;
 		fifoif.wr_ack <= 1;
 		wr_ptr <= wr_ptr + 1;
+		fifoif.overflow <=0;
        
 	end
 	else begin 
@@ -44,6 +45,7 @@ always @(posedge fifoif.clk or negedge fifoif.rst_n) begin
 	else if (fifoif.rd_en && count != 0) begin
 		fifoif.data_out <= mem[rd_ptr];
 		rd_ptr <= rd_ptr + 1;
+		fifoif.underflow <=0;
 	end
     else begin
         if (fifoif.empty &&fifoif.rd_en)
